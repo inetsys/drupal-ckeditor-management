@@ -1,0 +1,20 @@
+<?php
+
+function ckeditor_management_menu(){
+	return array(
+		'admin/config/content/ckeditor/features' => array(
+			'title' => t('Features'),
+			'access arguments' => array('administer ckeditor'),
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('_ckeditor_management_features_form'),
+			'file' => 'ckeditor_management.admin.inc',
+			'type' => MENU_LOCAL_TASK
+		)
+	);
+}
+
+function ckeditor_management_ckeditor_settings_alter(&$settings, $conf) {
+	$settings['customConfig'] = '/'.drupal_get_path('module', 'ckeditor_management') . '/ckeditor_management.js';
+
+	drupal_add_js(array('ckeditor_management' => variable_get('ckeditor_management_features', array())), 'setting');
+}
